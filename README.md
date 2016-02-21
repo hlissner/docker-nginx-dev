@@ -14,3 +14,20 @@ Virtual hosts are expected to be mounted when run, e.g.
 
 And app runtimes should be in linked containers (See
 [docker-phpfpm-dev](https://github.com/hlissner/docker-phpfpm-dev))
+
+## Example docker-compose.yml
+
+```yaml
+web:
+  image: v0/nginx
+  ports:
+    - "8080:80"
+  volumes:
+    - ./config/nginx.conf:/etc/nginx/conf.d/icanevents.conf
+    - .:/usr/share/nginx
+  links:
+    - php
+
+php:
+  image: v0/php-fpm
+```
