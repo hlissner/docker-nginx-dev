@@ -5,7 +5,7 @@
 This is a development docker image for [Nginx](https://www.nginx.com/). Used for my
 local development environment.
 
-`docker build -t v0/nginx github.com/hlissner/docker-nginx-dev`
+`docker build -t v0/nginx github.com/vnought/docker-nginx-dev`
 
 Virtual hosts are expected to be mounted when run, e.g.
 
@@ -23,7 +23,7 @@ web:
   ports:
     - "8080:80"
   volumes:
-    - ./config/nginx.conf:/etc/nginx/conf.d/icanevents.conf
+    - ./config/nginx.conf:/etc/nginx/conf.d/vhost.conf
     - .:/usr/share/nginx
   links:
     - php
