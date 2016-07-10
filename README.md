@@ -5,7 +5,7 @@
 This is a development docker image for [Nginx](https://www.nginx.com/). Used for my
 local development environment.
 
-`docker build -t v0/nginx github.com/vnought/docker-nginx-dev`
+`docker pull vnought/nginx-dev`
 
 Virtual hosts are expected to be mounted when run, e.g.
 
