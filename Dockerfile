@@ -1,8 +1,12 @@
-FROM nginx
+FROM alpine:latest
 MAINTAINER Henrik Lissner <henrik@lissner.net>
 
-RUN rm -vf  /etc/nginx/nginx.conf
-RUN rm -vfr /usr/share/nginx
-
+RUN apk add --update nginx && rm -rf /var/cache/apk/*
 COPY conf/nginx.conf /etc/nginx/nginx.conf
-RUN sed -i -e "s/worker_processes 1/worker_processes $(cat /proc/cpuinfo |grep processor | wc -l)/" /etc/nginx/nginx.conf
+
+RUN ln -svf /dev/stdout /var/log/nginx/access.log
+RUN ln -svf /dev/stderr /var/log/nginx/error.log
+
+EXPOSE 80 443
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
