@@ -2,34 +2,53 @@
 
 > Don't use this for production!
 
-This is a development docker image for [Nginx](https://www.nginx.com/). Used for my
-local development environment.
+This is a tiny development docker image for [Nginx](https://www.nginx.com/). Used for my
+local dev environment.
 
 `docker pull vnought/nginx-dev`
 
-Virtual hosts are expected to be mounted when run, e.g.
+Either use a Dockerfile to customize per-project, use docker-compose, or use a one-liner
+like:
 
-`docker run -d -v ./src:/usr/share/nginx -v
-./src/config/vhost.conf:/etc/nginx/conf.d/vhost.conf v0/nginx`
+```
+docker run -d -v "$(pwd):/www" \
+              -v "$(pwd)/conf/vhost.conf:/etc/nginx/conf.d/vhost.conf" \
+              vnought/nginx-dev`
+```
 
-And app runtimes should be in linked containers (See
+App runtimes should be in linked containers (See
 [docker-phpfpm-dev](https://github.com/hlissner/docker-phpfpm-dev))
 
-## Example docker-compose.yml
+
+## Dockerfile
+
+```
+USE vnought/nginx-dev
+COPY conf/vhost.conf /etc/nginx/conf.d/vhost.conf
+```
+
+Then build+start it:
+
+```
+docker build -t my-project .
+docker run -v $(pwd):/www my-project
+```
+
+## docker-compose
 
 ```yaml
 web:
-  image: v0/nginx
+  image: vnought/nginx-dev
   ports:
     - "8080:80"
   volumes:
-    - ./config/nginx.conf:/etc/nginx/conf.d/vhost.conf
-    - .:/usr/share/nginx
+    - .:/www
+    - ./conf/vhost.conf:/etc/nginx/conf.d/vhost.conf
   links:
     - php
 
 php:
-  image: v0/php-fpm
+  image: vnought/phpfpm-dev
   volumes:
-    - .:/usr/share/nginx
+    - .:/www
 ```
