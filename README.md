@@ -7,8 +7,8 @@ local dev environment.
 
 `docker pull vnought/nginx-dev`
 
-Either use a Dockerfile to customize per-project, use docker-compose, or use a one-liner
-like:
+Either use a Dockerfile to customize per-project, docker-compose, or use this one-liner
+from your project:
 
 ```
 docker run -d -v "$(pwd):/www" \
@@ -23,7 +23,7 @@ App runtimes should be in linked containers (See
 ## Dockerfile
 
 ```
-USE vnought/nginx-dev
+FROM vnought/nginx-dev
 COPY conf/vhost.conf /etc/nginx/conf.d/vhost.conf
 ```
 
